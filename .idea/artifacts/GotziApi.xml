@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="GotziApi">
+    <output-path>$USER_HOME$/Desktop/Java/api</output-path>
+    <root id="archive" name="GotziApi.jar">
+      <element id="module-output" name="GotziAPI" />
+    </root>
+  </artifact>
+</component>
