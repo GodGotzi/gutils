@@ -1,5 +1,8 @@
 package at.gotzi.api;
 
+import at.gotzi.api.logging.GLevel;
+import at.gotzi.api.logging.GLogger;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -9,10 +12,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
 public class GHelper {
-
-    static {
-        LOGGER = GLogger.getDefaultGotziLogger();
-    }
 
     public static GLogger LOGGER;
 
@@ -68,9 +67,9 @@ public class GHelper {
         String cls = GHelper.getCallerClassName().equals(GHelper.class.getCanonicalName()) ?
                 getCallerClassName(3) : getCallerClassName();
         try {
-            LOGGER.debug(s, Class.forName(cls));
+            LOGGER.log(GLevel.Debug, s + "Class:" + Class.forName(cls));
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

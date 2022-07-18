@@ -1,6 +1,6 @@
 package at.gotzi.api;
 
-public class Colors {
+public class Color {
 
     public static String RESET = "\033[0m";  // Text Reset
 
@@ -158,7 +158,7 @@ public class Colors {
      * @return The string without any color codes.
      */
     public static String removeColors(String str) {
-        str = str.replaceAll("\033\\[[0-9];[0-9][0-9][0-9]m", "");
+        str = str.replaceAll("\033\\[[0-9];[0-9][0-9]m", "");
         str = str.replaceAll("\033\\[[0-9];[0-9][0-9]m", "");
         str = str.replaceAll("\033\\[[0-9];[0-9]m", "");
         str = str.replaceAll("\033\\[[0-9]m", "");

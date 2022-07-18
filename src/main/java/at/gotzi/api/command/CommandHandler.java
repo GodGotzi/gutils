@@ -1,7 +1,7 @@
 package at.gotzi.api.command;
 
 import at.gotzi.api.Action;
-import at.gotzi.api.Colors;
+import at.gotzi.api.Color;
 import at.gotzi.api.GHelper;
 import at.gotzi.api.GotziRunnable;
 import at.gotzi.api.template.Scanner;
@@ -12,7 +12,7 @@ import java.util.Map;
 public class CommandHandler {
 
     static {
-        onFalseSyntax = s -> GHelper.LOGGER.info(Colors.RED + "FalseSyntax on Command \"" + s + "\"");
+        onFalseSyntax = s -> GHelper.LOGGER.info(Color.RED + "FalseSyntax on Command \"" + s + "\"");
     }
 
     static {

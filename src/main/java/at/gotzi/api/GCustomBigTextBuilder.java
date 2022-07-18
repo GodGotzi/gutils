@@ -38,12 +38,12 @@ public class GCustomBigTextBuilder extends IBuilder<String> {
         Queue<String> colorQueue = null;
 
         if (this.color.equals("RAINBOW"))
-            colorQueue = new LinkedList<>(Arrays.asList(Colors.colorArray));
+            colorQueue = new LinkedList<>(Arrays.asList(Color.colorArray));
 
         for (char c : charToFormat) {
             if (colorQueue != null) {
                 if (colorQueue.isEmpty())
-                    colorQueue = new LinkedList<>(Arrays.asList(Colors.colorArray));
+                    colorQueue = new LinkedList<>(Arrays.asList(Color.colorArray));
                 this.color = colorQueue.poll();
             }
 
