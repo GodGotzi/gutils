@@ -4,11 +4,10 @@ import at.gotzi.api.Color;
 import at.gotzi.api.ano.Comment;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.logging.*;
 
 public class GLogger extends Logger {
-
-    private static Formatter formatter = new GDefaultFormatter();
 
     /**
      * It returns a new GLogger object with the following parameters:
@@ -25,56 +24,15 @@ public class GLogger extends Logger {
      *         - Colors.WHITE
      *         - Colors.CYAN
      */
-    public static GLogger getDefaultGotziLogger(String name, boolean consoleLogging) {
+    public static GLogger getDefaultGotziLogger(String name, boolean consoleLogging, boolean consoleColors) {
         GLogger gLogger = new GLogger(name);
-        StreamHandler streamHandler = new ConsoleHandler();
-        streamHandler.setFormatter(new GDefaultFormatter());
-        gLogger.addHandler(streamHandler);
+        if (consoleLogging) {
+            StreamHandler streamHandler = new ConsoleHandler();
+            streamHandler.setFormatter(new GDefaultFormatter(consoleColors));
+            gLogger.addHandler(streamHandler);
+        }
 
         return gLogger;
-    }
-
-    @Comment.Setter
-    public static void setFormatter(Formatter formatter) {
-        GLogger.formatter = formatter;
-    }
-
-    @Comment.Getter
-    public static Formatter getFormatter() {
-        return formatter;
-    }
-
-    @Override
-    public void warning(String msg) {
-        super.log(GLevel.Warning, msg);
-    }
-
-    public void warning(Object msg) {
-        this.warning(msg.toString());
-    }
-
-    public void info(String msg) {
-        super.log(GLevel.Info, msg);
-    }
-
-    public void info(Object msg) {
-        this.info(msg.toString());
-    }
-
-    public void debug(Object msg) {
-        this.debug(msg.toString());
-    }
-
-    public void debug(String msg) {
-        super.log(GLevel.Debug, msg);
-    }
-
-    public void error(String msg) {
-        super.log(GLevel.Error, msg);
-    }
-
-    public void error(Object msg) {
-        this.error(msg.toString());
     }
 
     /*
@@ -99,6 +57,18 @@ public class GLogger extends Logger {
         super(name, null);
         setUseParentHandlers(false);
         LogManager.getLogManager().addLogger(this);
+    }
+
+    @Override
+    public void log(Level level, String msg, Object[] params) {
+        MessageFormat messageFormat = new MessageFormat(msg);
+        super.log(level, messageFormat.format(params));
+    }
+
+    @Override
+    public void log(Level level, String msg, Object param1) {
+        MessageFormat messageFormat = new MessageFormat(msg);
+        super.log(level, messageFormat.format(new Object[]{param1}));
     }
 
     /**

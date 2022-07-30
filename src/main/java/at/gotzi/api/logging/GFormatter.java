@@ -5,15 +5,15 @@ import java.util.logging.LogRecord;
 
 public abstract class GFormatter extends Formatter {
 
-    private static boolean colors = true;
+    private boolean colors = true;
 
-    public static void setColorsOnOff(boolean colors) {
-        GFormatter.colors = colors;
+    public GFormatter(boolean colors) {
+        this.colors = colors;
     }
 
     @Override
     public String format(LogRecord record) {
-        if (colors) return formatWithColors(record);
+        if (this.colors) return formatWithColors(record);
         return formatWithOutColors(record);
     }
 

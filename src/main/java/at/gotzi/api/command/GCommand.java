@@ -1,7 +1,6 @@
 package at.gotzi.api.command;
 
 import at.gotzi.api.ano.Comment;
-import at.gotzi.api.template.Buildable;
 import at.gotzi.api.template.Executable;
 
 import java.util.ArrayList;

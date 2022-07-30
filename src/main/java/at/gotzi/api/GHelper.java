@@ -77,9 +77,9 @@ public class GHelper {
         debugMessage(s + "| debug-number: " + number);
     }
 
-    public static boolean initFile(File file) {
+    public static boolean initFile(String file) {
         try {
-            return file.createNewFile();
+            return new File(file).createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,5 +87,8 @@ public class GHelper {
         return false;
     }
 
+    public static boolean initDir(String file) {
+        return new File(file).mkdirs();
+    }
 
 }

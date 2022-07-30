@@ -7,9 +7,11 @@ import java.util.logging.Level;
 public class GLevel extends Level {
 
     public static final GLevel Error = new GLevel("Error", Color.RED, 950);
-    public static final GLevel Info = new GLevel("Information", Color.WHITE, 951);
-    public static final GLevel Debug = new GLevel("Debug", Color.CYAN, 952);
+    public static final GLevel Info = new GLevel(Color.GREEN + "Information", Color.WHITE, 951);
+    public static final GLevel Debug = new GLevel(Color.CYAN + "Debug", Color.WHITE, 952);
     public static final GLevel Warning = new GLevel("Warning", Color.YELLOW, 953);
+
+    public static final GLevel Important = new GLevel("Important", Color.GREEN, 954);
 
     public String color;
 
