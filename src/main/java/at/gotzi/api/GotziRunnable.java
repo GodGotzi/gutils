@@ -1,7 +1,5 @@
 package at.gotzi.api;
 
-import java.io.IOException;
-
 public abstract class GotziRunnable {
 
     private Thread thread;
@@ -25,7 +23,8 @@ public abstract class GotziRunnable {
     public void runTaskLater(int milliseconds) {
         this.thread = new Thread(() -> {
             try {
-                Thread.sleep(milliseconds);
+                if (milliseconds > 0)
+                    Thread.sleep(milliseconds);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -54,7 +53,8 @@ public abstract class GotziRunnable {
                 if (stop)
                     return;
                 try {
-                    Thread.sleep(milliseconds);
+                    if (milliseconds > 0)
+                        Thread.sleep(milliseconds);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

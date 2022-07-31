@@ -1,5 +1,7 @@
 package at.gotzi.api.command;
 
-public record GCommandContext(String cmd, String[] args, Object[] objects) {
+import java.util.Properties;
+
+public record GCommandContext(String cmd, String[] args, Object[] objects, Properties properties) {
 
 }

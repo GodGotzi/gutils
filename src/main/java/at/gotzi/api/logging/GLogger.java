@@ -47,10 +47,9 @@ public class GLogger extends Logger {
         };
     }
 
-    String name;
-    //non-static stuff
-    //text var: When you're executing method info(String) this is what text comes by default in brackets
+    private String name;
 
+    private boolean debug;
 
     @Comment.Constructor
     public GLogger(String name) {
@@ -62,13 +61,29 @@ public class GLogger extends Logger {
     @Override
     public void log(Level level, String msg, Object[] params) {
         MessageFormat messageFormat = new MessageFormat(msg);
-        super.log(level, messageFormat.format(params));
+        if (debug) {
+            if (level != GLevel.Debug)
+                super.log(level, messageFormat.format(params));
+        } else
+            super.log(level, messageFormat.format(params));
     }
 
     @Override
     public void log(Level level, String msg, Object param1) {
         MessageFormat messageFormat = new MessageFormat(msg);
-        super.log(level, messageFormat.format(new Object[]{param1}));
+        if (debug) {
+            if (level != GLevel.Debug)
+                super.log(level, messageFormat.format(param1));
+        } else
+            super.log(level, messageFormat.format(param1));
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    public boolean isDebug() {
+        return debug;
     }
 
     /**

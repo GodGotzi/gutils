@@ -1,13 +1,13 @@
 package at.gotzi.api.command;
 
+import at.gotzi.api.GHelper;
 import at.gotzi.api.ano.Comment;
+import at.gotzi.api.logging.GLevel;
 import at.gotzi.api.template.Executable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static at.gotzi.api.command.CommandHandler.onFalseSyntax;
 
 public class GCommand implements Executable<GCommandContext> {
 
@@ -45,14 +45,16 @@ public class GCommand implements Executable<GCommandContext> {
                         .findFirst().orElse(null);
 
         if (gArgument == null) {
-            onFalseSyntax.run(gotziCommandContext.cmd());
+            GHelper.LOGGER.log(GLevel.Info, gotziCommandContext.properties().getProperty("onFalseSyntax"),
+                    gotziCommandContext.cmd());
             return;
         }
 
         for (int i = 0; i < gotziCommandContext.args().length-1; i++) {
             gArgument = getNextArgument(gArgument, gotziCommandContext);
             if (gArgument == null) {
-                onFalseSyntax.run(gotziCommandContext.cmd());
+                GHelper.LOGGER.log(GLevel.Info, gotziCommandContext.properties().getProperty("onFalseSyntax"),
+                        gotziCommandContext.cmd());
                 break;
             }
 
@@ -60,6 +62,15 @@ public class GCommand implements Executable<GCommandContext> {
                 gArgument.getCommandAction().run(gotziCommandContext);
             }
         }
+    }
+
+    public int tabComplete(String buffer, int cursor, List<CharSequence> candidates) {
+
+
+        //todo
+
+
+        return 0;
     }
 
     /**

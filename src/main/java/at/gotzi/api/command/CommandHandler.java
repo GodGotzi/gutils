@@ -1,49 +1,58 @@
 package at.gotzi.api.command;
 
-import at.gotzi.api.Action;
-import at.gotzi.api.Color;
 import at.gotzi.api.GHelper;
 import at.gotzi.api.GotziRunnable;
-import at.gotzi.api.template.Scanner;
+import at.gotzi.api.logging.GLevel;
+import jline.console.completer.Completer;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-public class CommandHandler {
+public class CommandHandler implements Completer {
+
+    private static final Properties properties = new Properties();
 
     static {
-        onFalseSyntax = s -> GHelper.LOGGER.info(Color.RED + "FalseSyntax on Command \"" + s + "\"");
+        InputStream in = CommandHandler.class.getClassLoader().getResourceAsStream("command-handler.properties");
+        if (in == null)
+            in = CommandHandler.class.getClassLoader().getResourceAsStream("default-command-handler.properties");
+
+        try {
+            properties.load(in);
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError();
+        }
     }
 
-    static {
-        commandNotExists = s -> GHelper.LOGGER.info("Command not found: " + s);
+    public static Properties getProperties() {
+        return properties;
     }
-
-    public static Action<String> onFalseSyntax;
-    public static Action<String> commandNotExists;
 
     private final char commandChar;
     private final Map<String, GCommand> commandMap = new HashMap<>();
 
-    public CommandHandler(char commandChar) {
+    public CommandHandler(CommandScanner commandScanner, char commandChar) {
         this.commandChar = commandChar;
+        this.scanLoop(commandScanner);
     }
 
     /**
      * This function will run the executeCommand function every tick, and will pass the scanner's scan() function as the
      * command, and an empty object array as the arguments.
      *
-     * @param scanner The scanner to use.
-     * @return The CommandHandler itself.
+     * @param commandScanner The scanner to use.
      */
-    public CommandHandler scanLoop(Scanner scanner) {
+    private void scanLoop(CommandScanner commandScanner) {
         new GotziRunnable() {
             @Override
             public void run() {
-                executeCommand(scanner.scan(), new Object[]{});
+                executeCommand(commandScanner.scan(), new Object[]{});
             }
-        }.runRepeatingTaskAsync(1);
-        return this;
+        }.runRepeatingTaskAsync(-1);
     }
 
     /**
@@ -79,9 +88,15 @@ public class CommandHandler {
      */
     public synchronized void executeCommand(String cmd, String[] args, Object[] objects) {
         if (commandMap.get(cmd) == null) {
-            commandNotExists.run(cmd);
+            GHelper.LOGGER.log(GLevel.Info, properties.getProperty("commandNotExists"), cmd);
             return;
         }
-        commandMap.get(cmd).execute(new GCommandContext(cmd, args, objects));
+        commandMap.get(cmd).execute(new GCommandContext(cmd, args, objects, properties));
+    }
+
+    @Override
+    public int complete(String s, int i, List<CharSequence> list) {
+        GHelper.LOGGER.log(GLevel.Debug, "test");
+        return 0;
     }
 }
