@@ -1,42 +1,39 @@
 package at.gotzi.api.command;
 
 import at.gotzi.api.GHelper;
-import at.gotzi.api.GotziRunnable;
-import at.gotzi.api.logging.GLevel;
+import at.gotzi.api.template.logging.GLevel;
 import jline.console.completer.Completer;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class CommandHandler implements Completer {
 
-    private static final Properties properties = new Properties();
+    private final Properties properties = new Properties();
 
-    static {
+    public Properties getProperties() {
+        return properties;
+    }
+
+    private char commandChar;
+    private final Map<String, GCommand> commandMap = new LinkedHashMap<>();
+
+    public CommandHandler(CommandScanner commandScanner, char commandChar) {
+        this.setCommandChar(commandChar);
+
         InputStream in = CommandHandler.class.getClassLoader().getResourceAsStream("command-handler.properties");
         if (in == null)
             in = CommandHandler.class.getClassLoader().getResourceAsStream("default-command-handler.properties");
 
         try {
-            properties.load(in);
+            synchronized (properties) {
+                properties.load(in);
+            }
         } catch (IOException e) {
             throw new ExceptionInInitializerError();
         }
-    }
 
-    public static Properties getProperties() {
-        return properties;
-    }
-
-    private final char commandChar;
-    private final Map<String, GCommand> commandMap = new HashMap<>();
-
-    public CommandHandler(CommandScanner commandScanner, char commandChar) {
-        this.commandChar = commandChar;
         this.scanLoop(commandScanner);
     }
 
@@ -47,12 +44,9 @@ public class CommandHandler implements Completer {
      * @param commandScanner The scanner to use.
      */
     private void scanLoop(CommandScanner commandScanner) {
-        new GotziRunnable() {
-            @Override
-            public void run() {
-                executeCommand(commandScanner.scan(), new Object[]{});
-            }
-        }.runRepeatingTaskAsync(-1);
+        while(true) {
+            this.executeCommand(commandScanner.scan());
+        }
     }
 
     /**
@@ -60,7 +54,7 @@ public class CommandHandler implements Completer {
      *
      * @param gCommand The command you want to register.
      */
-    public void registerCommand(GCommand gCommand) {
+    public synchronized void registerCommand(GCommand gCommand) {
         commandMap.put(gCommand.getLabel(), gCommand);
     }
 
@@ -68,14 +62,13 @@ public class CommandHandler implements Completer {
      * It takes a string, splits it into a command and arguments, and then executes the command with the arguments
      *
      * @param line The line of text that was sent to the bot.
-     * @param objects An array of objects that can be used by the command.
      */
-    public void executeCommand(String line, Object[] objects) {
+    public synchronized void executeCommand(String line) {
         if (line.charAt(0) == commandChar || commandChar == ' ') {
             if (commandChar != ' ') line = line.substring(1);
             String[] cmdSplit = line.split(" ", 2);
-            if (cmdSplit.length < 2) executeCommand(cmdSplit[0], new String[]{}, objects);
-            else executeCommand(cmdSplit[0], cmdSplit[1].split(" "), objects);
+            if (cmdSplit.length < 2) executeCommand(cmdSplit[0], new String[]{});
+            else executeCommand(cmdSplit[0], cmdSplit[1].split(" "));
         }
     }
 
@@ -84,19 +77,22 @@ public class CommandHandler implements Completer {
      *
      * @param cmd The command name
      * @param args The arguments of the command.
-     * @param objects An array of objects that can be passed to the command.
      */
-    public synchronized void executeCommand(String cmd, String[] args, Object[] objects) {
+    public synchronized void executeCommand(String cmd, String[] args) {
         if (commandMap.get(cmd) == null) {
             GHelper.LOGGER.log(GLevel.Info, properties.getProperty("commandNotExists"), cmd);
             return;
         }
-        commandMap.get(cmd).execute(new GCommandContext(cmd, args, objects, properties));
+        commandMap.get(cmd).execute(new GCommandContext(cmd, args, properties));
     }
 
     @Override
     public int complete(String s, int i, List<CharSequence> list) {
         GHelper.LOGGER.log(GLevel.Debug, "test");
         return 0;
+    }
+
+    public synchronized void setCommandChar(char commandChar) {
+        this.commandChar = commandChar;
     }
 }

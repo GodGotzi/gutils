@@ -1,4 +1,4 @@
-package at.gotzi.api.logging;
+package at.gotzi.api.template.logging;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

@@ -1,4 +1,4 @@
-package at.gotzi.api;
+package at.gotzi.api.template;
 
 public interface Action<T> {
 

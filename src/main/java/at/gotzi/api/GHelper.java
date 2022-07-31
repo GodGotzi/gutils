@@ -1,7 +1,7 @@
 package at.gotzi.api;
 
-import at.gotzi.api.logging.GLogger;
-import at.gotzi.api.logging.GLevel;
+import at.gotzi.api.template.logging.GLogger;
+import at.gotzi.api.template.logging.GLevel;
 
 import java.io.File;
 import java.io.IOException;

@@ -2,7 +2,7 @@ package at.gotzi.api.command;
 
 import at.gotzi.api.GHelper;
 import at.gotzi.api.ano.Comment;
-import at.gotzi.api.logging.GLevel;
+import at.gotzi.api.template.logging.GLevel;
 import at.gotzi.api.template.Executable;
 
 import java.util.ArrayList;
