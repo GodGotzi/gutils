@@ -9,6 +9,7 @@
     <version>1.0</version>
 
     <properties>
+        <output-dir>null</output-dir>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -31,6 +32,20 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>Gotzi</id>
+            <properties>
+                <output-dir>C:\Users\Elias\Desktop\Minestrum Test\lib</output-dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>Brot</id>
+            <properties>
+                <output-dir>C:\Users\Elias\Desktop\Minestrum Test\lib</output-dir>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -44,7 +59,7 @@
                             <mainClass>at.gotzi.minestrum.MinestrumLoader</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>C:\Users\Elias\Desktop\Minestrum Test\lib</outputDirectory>
+                    <outputDirectory>${output-dir}</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
