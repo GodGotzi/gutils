@@ -19,8 +19,8 @@ public class CommandHandler implements Completer {
     private char commandChar;
     private final Map<String, GCommand> commandMap = new LinkedHashMap<>();
 
-    public CommandHandler(CommandScanner commandScanner, char commandChar) {
-        this.setCommandChar(commandChar);
+    public CommandHandler(char commandChar) {
+        this.commandChar = commandChar;
 
         InputStream in = CommandHandler.class.getClassLoader().getResourceAsStream("command-handler.properties");
         if (in == null)
@@ -33,8 +33,6 @@ public class CommandHandler implements Completer {
         } catch (IOException e) {
             throw new ExceptionInInitializerError();
         }
-
-        this.scanLoop(commandScanner);
     }
 
     /**
@@ -43,7 +41,7 @@ public class CommandHandler implements Completer {
      *
      * @param commandScanner The scanner to use.
      */
-    private void scanLoop(CommandScanner commandScanner) {
+    public void scanLoop(CommandScanner commandScanner) {
         while(true) {
             this.executeCommand(commandScanner.scan());
         }

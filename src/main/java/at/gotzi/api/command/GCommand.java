@@ -2,6 +2,7 @@ package at.gotzi.api.command;
 
 import at.gotzi.api.GHelper;
 import at.gotzi.api.ano.Comment;
+import at.gotzi.api.template.Initializable;
 import at.gotzi.api.template.logging.GLevel;
 import at.gotzi.api.template.Executable;
 
@@ -9,11 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GCommand implements Executable<GCommandContext> {
+public abstract class GCommand implements Executable<GCommandContext>, Initializable {
 
     private final List<GArgument> arguments = new ArrayList<>();
     private final String label;
-    private CommandAction nullAction;
+    private CommandAction nativeAction;
 
     @Comment.Constructor
     public GCommand(String label) {
@@ -21,9 +22,9 @@ public class GCommand implements Executable<GCommandContext> {
     }
 
     @Comment.Constructor
-    public GCommand(String label, CommandAction nullAction) {
+    public GCommand(String label, CommandAction nativeAction) {
         this.label = label;
-        this.nullAction = nullAction;
+        this.nativeAction = nativeAction;
     }
 
     /**
@@ -35,8 +36,8 @@ public class GCommand implements Executable<GCommandContext> {
      */
     @Override
     public void execute(GCommandContext gotziCommandContext) {
-        if (gotziCommandContext.args().length == 0 && nullAction != null) {
-            nullAction.run(gotziCommandContext);
+        if (gotziCommandContext.args().length == 0 && nativeAction != null) {
+            nativeAction.run(gotziCommandContext);
             return;
         }
 
@@ -120,5 +121,9 @@ public class GCommand implements Executable<GCommandContext> {
     @Comment.Getter
     public List<GArgument> getArguments() {
         return arguments;
+    }
+
+    public void setNativeAction(CommandAction nativeAction) {
+        this.nativeAction = nativeAction;
     }
 }

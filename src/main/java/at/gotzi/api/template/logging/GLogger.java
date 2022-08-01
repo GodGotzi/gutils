@@ -59,7 +59,7 @@ public class GLogger extends Logger {
     }
 
     @Override
-    public void log(Level level, String msg, Object[] params) {
+    public void log(Level level, String msg, Object... params) {
         MessageFormat messageFormat = new MessageFormat(msg);
         if (debug) {
             if (level != GLevel.Debug)
@@ -73,9 +73,9 @@ public class GLogger extends Logger {
         MessageFormat messageFormat = new MessageFormat(msg);
         if (debug) {
             if (level != GLevel.Debug)
-                super.log(level, messageFormat.format(param1));
+                super.log(level, messageFormat.format(new Object[]{param1}));
         } else
-            super.log(level, messageFormat.format(param1));
+            super.log(level, messageFormat.format(new Object[]{param1}));
     }
 
     public void setDebug(boolean debug) {
