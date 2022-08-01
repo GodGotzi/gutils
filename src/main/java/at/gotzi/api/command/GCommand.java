@@ -5,12 +5,17 @@ import at.gotzi.api.ano.Comment;
 import at.gotzi.api.template.Initializable;
 import at.gotzi.api.template.logging.GLevel;
 import at.gotzi.api.template.Executable;
+import at.gotzi.api.template.logging.GLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class GCommand implements Executable<GCommandContext>, Initializable {
+
+    private static final Logger commandLogger = GLogger
+            .getDefaultGotziLogger("command-logger", true, true);
 
     private final List<GArgument> arguments = new ArrayList<>();
     private final String label;
@@ -125,5 +130,9 @@ public abstract class GCommand implements Executable<GCommandContext>, Initializ
 
     public void setNativeAction(CommandAction nativeAction) {
         this.nativeAction = nativeAction;
+    }
+
+    public static Logger getCommandLogger() {
+        return commandLogger;
     }
 }
