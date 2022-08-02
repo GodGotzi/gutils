@@ -1,7 +1,7 @@
 package at.gotzi.api;
 
-import at.gotzi.api.template.logging.GLogger;
-import at.gotzi.api.template.logging.GLevel;
+import at.gotzi.api.logging.GLogger;
+import at.gotzi.api.logging.GLevel;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,6 +85,20 @@ public class GHelper {
         }
 
         return false;
+    }
+
+    public static boolean initFile(File file) {
+        try {
+            return file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static boolean initDir(File file) {
+        return file.mkdirs();
     }
 
     public static boolean initDir(String file) {

@@ -1,7 +1,6 @@
-package at.gotzi.api.template.logging;
+package at.gotzi.api.logging;
 
 import at.gotzi.api.Color;
-import at.gotzi.api.GHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

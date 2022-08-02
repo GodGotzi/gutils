@@ -1,7 +1,7 @@
 package at.gotzi.api.command;
 
 import at.gotzi.api.GHelper;
-import at.gotzi.api.template.logging.GLevel;
+import at.gotzi.api.logging.GLevel;
 import jline.console.completer.Completer;
 
 import java.io.IOException;

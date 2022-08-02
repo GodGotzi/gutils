@@ -3,9 +3,9 @@ package at.gotzi.api.command;
 import at.gotzi.api.GHelper;
 import at.gotzi.api.ano.Comment;
 import at.gotzi.api.template.Initializable;
-import at.gotzi.api.template.logging.GLevel;
+import at.gotzi.api.logging.GLevel;
 import at.gotzi.api.template.Executable;
-import at.gotzi.api.template.logging.GLogger;
+import at.gotzi.api.logging.GLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

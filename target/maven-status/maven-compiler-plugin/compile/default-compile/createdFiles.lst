@@ -1,10 +1,9 @@
 at\gotzi\api\command\CommandScanner.class
 at\gotzi\api\Color.class
-at\gotzi\api\GDir.class
-at\gotzi\api\template\logging\GLogger$1.class
-at\gotzi\api\template\logging\GDefaultFormatter.class
-at\gotzi\api\template\logging\GLogger.class
-at\gotzi\api\template\logging\GFormatter.class
-at\gotzi\api\template\logging\GLevel.class
-at\gotzi\api\template\Register.class
+at\gotzi\api\logging\GLevel.class
+at\gotzi\api\logging\GLogger$1.class
+at\gotzi\api\logging\GFormatter.class
+at\gotzi\api\logging\GLogger.class
+at\gotzi\api\logging\GDefaultFormatter.class
+at\gotzi\api\PropertyHelper.class
 at\gotzi\api\template\Action.class

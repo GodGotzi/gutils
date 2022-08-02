@@ -1,4 +1,4 @@
-package at.gotzi.api.template.logging;
+package at.gotzi.api.logging;
 
 import at.gotzi.api.Color;
 import at.gotzi.api.ano.Comment;
