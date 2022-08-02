@@ -5,5 +5,4 @@ at\gotzi\api\logging\GLogger$1.class
 at\gotzi\api\logging\GFormatter.class
 at\gotzi\api\logging\GLogger.class
 at\gotzi\api\logging\GDefaultFormatter.class
-at\gotzi\api\PropertyHelper.class
 at\gotzi\api\template\Action.class
