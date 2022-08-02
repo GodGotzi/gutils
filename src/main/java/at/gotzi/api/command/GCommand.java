@@ -54,14 +54,15 @@ public abstract class GCommand implements Executable<GCommandContext>, Initializ
             GHelper.LOGGER.log(GLevel.Info, gotziCommandContext.properties().getProperty("onFalseSyntax"),
                     gotziCommandContext.cmd());
             return;
-        }
+        } else if (gotziCommandContext.args().length == 1)
+            gArgument.getCommandAction().run(gotziCommandContext);
 
         for (int i = 0; i < gotziCommandContext.args().length-1; i++) {
             gArgument = getNextArgument(gArgument, gotziCommandContext);
             if (gArgument == null) {
                 GHelper.LOGGER.log(GLevel.Info, gotziCommandContext.properties().getProperty("onFalseSyntax"),
                         gotziCommandContext.cmd());
-                break;
+                return;
             }
 
             if (gArgument.getIndex() == (gotziCommandContext.args().length-1) && gArgument.getCommandAction() != null) {
